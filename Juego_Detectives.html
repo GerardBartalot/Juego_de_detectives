@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Detectives</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f9fafb, #e2e8f0);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div id="app" class="max-w-3xl bg-white shadow-lg rounded-lg p-6 text-center">
+        <h1 class="text-3xl font-bold mb-4 text-blue-600">🔍 Juego de Detectives</h1>
+        <p id="scenario" class="text-lg mb-6">
+            Un ladrón ha robado un objeto valioso en una ciudad. ¡Sigue las pistas para atraparlo!
+        </p>
+        <div id="game-content" class="hidden">
+            <p class="bg-yellow-100 text-yellow-800 text-left font-semibold p-3 rounded mb-4">
+                ⚠️ Sigue las pistas sobre el próximo destino del ladrón:
+            </p>
+            <ul id="pistas" class="text-left list-disc list-inside mb-6 text-gray-700"></ul>
+            <div id="ciudades" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+        </div>
+        <div id="final-step" class="hidden">
+            <p class="text-lg font-semibold mb-4">¿Quién es el ladrón? 🤔</p>
+            <div id="suspects" class="grid grid-cols-2 gap-4"></div>
+        </div>
+        <button id="start-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mt-4">
+            Iniciar Juego
+        </button>
+        <p id="puntaje" class="text-lg mt-6 font-semibold text-gray-800 hidden">Puntaje: <span id="score">0</span></p>
+    </div>
+
+    <script>
+        const cities = [
+            { name: "París", emoji: "🗼", pistas: ["Tiene un monumento famoso que fue construido en 1889.", "Es conocida como la ciudad del amor.", "Es famosa por su moda y arte."] },
+            { name: "Londres", emoji: "🏰", pistas: ["Aquí está el Big Ben.", "Es conocida por la realeza.", "Tiene un famoso puente llamado Tower Bridge."] },
+            { name: "Roma", emoji: "🏛️", pistas: ["Es conocida como la Ciudad Eterna.", "Tiene un famoso anfiteatro llamado Coliseo.", "Fue la capital de un gran imperio."] }
+        ];
+        const suspects = ["Juan 🕵️‍♂️", "Maria 🕵️‍♀️", "Pedro 🕵️‍♂️", "Lucía 🕵️‍♀️"];
+        let score = 0;
+
+        document.getElementById("start-btn").addEventListener("click", startGame);
+
+        function startGame() {
+            score = 0;
+            document.getElementById("puntaje").classList.remove("hidden");
+            document.getElementById("score").textContent = score;
+            showScenario();
+        }
+
+        function showScenario() {
+            document.getElementById("start-btn").classList.add("hidden");
+            document.getElementById("game-content").classList.remove("hidden");
+            const pistasList = document.getElementById("pistas");
+            pistasList.innerHTML = "";
+            cities[0].pistas.forEach((pista) => {
+                const li = document.createElement("li");
+                li.textContent = pista;
+                pistasList.appendChild(li);
+            });
+            showOptions();
+        }
+
+        function showOptions() {
+            const citiesDiv = document.getElementById("ciudades");
+            citiesDiv.innerHTML = "";
+
+            cities.forEach((city) => {
+                const button = document.createElement("button");
+                button.className = "p-4 bg-gray-200 rounded hover:bg-gray-300 flex flex-col items-center";
+                button.innerHTML = `<span class="text-3xl">${city.emoji}</span><span>${city.name}</span>`;
+                button.addEventListener("click", () => checkAnswer(city));
+                citiesDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(city) {
+            if (city.name === "París") {
+                score += 10;
+                alert("¡Correcto! Has atrapado al ladrón en París.");
+                showFinal();
+            } else {
+                alert("¡Incorrecto! El ladrón escapó.");
+            }
+            document.getElementById("score").textContent = score;
+        }
+
+        function showFinal() {
+            document.getElementById("game-content").classList.add("hidden");
+            document.getElementById("final-step").classList.remove("hidden");
+
+            const suspectsDiv = document.getElementById("suspects");
+            suspectsDiv.innerHTML = "";
+
+            suspects.forEach((suspect) => {
+                const button = document.createElement("button");
+                button.className = "p-4 bg-yellow-200 rounded hover:bg-yellow-300";
+                button.textContent = suspect;
+                button.addEventListener("click", () => finalizeGame(suspect));
+                suspectsDiv.appendChild(button);
+            });
+        }
+
+        function finalizeGame(suspect) {
+            if (suspect === suspects[0]) {
+                score += 50;
+                alert("¡Has identificado al ladrón! Ganaste 50 puntos.");
+            } else {
+                alert("¡Incorrecto! El ladrón escapó.");
+            }
+            document.getElementById("score").textContent = score;
+            resetGame();
+        }
+
+        function resetGame() {
+            document.getElementById("final-step").classList.add("hidden");
+            document.getElementById("start-btn").classList.remove("hidden");
+            document.getElementById("puntaje").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>
