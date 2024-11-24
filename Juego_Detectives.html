@@ -40,15 +40,48 @@
         const cities = [
             { name: "París", emoji: "🗼", pistas: ["Tiene un monumento famoso que fue construido en 1889.", "Es conocida como la ciudad del amor.", "Es famosa por su moda y arte."] },
             { name: "Londres", emoji: "🏰", pistas: ["Aquí está el Big Ben.", "Es conocida por la realeza.", "Tiene un famoso puente llamado Tower Bridge."] },
-            { name: "Roma", emoji: "🏛️", pistas: ["Es conocida como la Ciudad Eterna.", "Tiene un famoso anfiteatro llamado Coliseo.", "Fue la capital de un gran imperio."] }
+            { name: "Roma", emoji: "🏛️", pistas: ["Es conocida como la Ciudad Eterna.", "Tiene un famoso anfiteatro llamado Coliseo.", "Fue la capital de un gran imperio."] },
+            { name: "Tokio", emoji: "🗾", pistas: ["Es famosa por sus cerezos en flor.", "El Monte Fuji está cerca.", "Es conocida por su tecnología avanzada."] },
+            { name: "Nueva York", emoji: "🗽", pistas: ["Tiene un monumento llamado Estatua de la Libertad.", "Es conocida como la ciudad que nunca duerme.", "Tiene un parque central famoso llamado Central Park."] },
+            { name: "El Cairo", emoji: "🕌", pistas: ["Tiene pirámides antiguas.", "El río Nilo pasa por aquí.", "Es conocida por su historia faraónica."] },
+            { name: "Sídney", emoji: "🌉", pistas: ["Tiene una ópera con un diseño único.", "Es conocida por sus canguros.", "Está cerca de la Gran Barrera de Coral."] },
+            { name: "Río de Janeiro", emoji: "🌴", pistas: ["Tiene un Cristo gigante en la montaña.", "Es famosa por su carnaval.", "Tiene playas como Copacabana."] },
+            { name: "Moscú", emoji: "🏯", pistas: ["Tiene un famoso Kremlin.", "La Plaza Roja está aquí.", "Es conocida por su catedral de cúpulas coloridas."] },
+            { name: "Bangkok", emoji: "🌅", pistas: ["Es conocida por sus templos dorados.", "El río Chao Phraya pasa por aquí.", "Tiene un mercado flotante famoso."] },
+            { name: "Dubái", emoji: "🌆", pistas: ["Tiene un rascacielos llamado Burj Khalifa.", "Es conocida por sus islas artificiales.", "Es famosa por el lujo y las compras."] },
+            { name: "Ámsterdam", emoji: "🚲", pistas: ["Es conocida por sus canales.", "Tiene una gran cantidad de bicicletas.", "Es famosa por su historia artística."] },
+            { name: "Atenas", emoji: "🏺", pistas: ["Tiene un monumento llamado la Acrópolis.", "Es conocida como la cuna de la civilización occidental.", "Es famosa por la mitología griega."] },
+            { name: "Pekín", emoji: "🏯", pistas: ["Tiene una plaza famosa llamada Tiananmen.", "Está cerca de la Gran Muralla China.", "Es conocida por su ciudad prohibida."] },
+            { name: "Venecia", emoji: "🚤", pistas: ["Es conocida por sus canales y góndolas.", "No tiene calles, solo agua.", "Tiene una plaza famosa llamada San Marcos."] },
+            { name: "Buenos Aires", emoji: "💃", pistas: ["Es famosa por el tango.", "Tiene un teatro llamado Teatro Colón.", "Es conocida como la París de Sudamérica."] },
+            { name: "Los Ángeles", emoji: "🎬", pistas: ["Es conocida como la capital del cine.", "Tiene un paseo de la fama con estrellas.", "Hollywood está aquí."] },
+            { name: "Ciudad de México", emoji: "🕌", pistas: ["Tiene un gran Zócalo.", "Es conocida por sus pirámides cercanas, como Teotihuacán.", "Es famosa por su comida picante."] },
+            { name: "Berlín", emoji: "🏙️", pistas: ["Tiene un famoso muro que fue derribado.", "Es conocida por su historia de la Segunda Guerra Mundial.", "Tiene una puerta llamada Puerta de Brandeburgo."] },
+            { name: "San Francisco", emoji: "🌉", pistas: ["Tiene un puente famoso llamado Golden Gate.", "Es conocida por sus colinas empinadas.", "Alcatraz está cerca."] },
+            { name: "Toronto", emoji: "🗼", pistas: ["Tiene una torre llamada CN Tower.", "Es conocida por sus lagos cercanos.", "Es una de las ciudades más multiculturales del mundo."] },
+            { name: "Barcelona", emoji: "🎨", pistas: ["Tiene una iglesia famosa llamada Sagrada Familia.", "Es conocida por su arquitecto Antoni Gaudí.", "Tiene un paseo famoso llamado Las Ramblas."] },
+            { name: "Estambul", emoji: "🕌", pistas: ["Es conocida como la ciudad entre dos continentes.", "Tiene una mezquita llamada Santa Sofía.", "Es famosa por su bazar cubierto."] },
+            { name: "Kioto", emoji: "🌸", pistas: ["Es famosa por sus templos y jardines zen.", "Tiene un barrio de geishas llamado Gion.", "Es conocida por sus cerezos en flor."] },
+            { name: "Lisboa", emoji: "🌉", pistas: ["Es conocida por su puente rojo llamado 25 de Abril.", "Tiene tranvías históricos.", "Es famosa por sus pasteles de nata."] },
+            { name: "Seúl", emoji: "🎎", pistas: ["Es conocida por el palacio Gyeongbokgung.", "Es el hogar del K-Pop.", "Tiene un mercado famoso llamado Namdaemun."] },
+            { name: "Hanoi", emoji: "🚲", pistas: ["Tiene un lago llamado Hoan Kiem.", "Es conocida por su casco antiguo.", "Es famosa por su comida callejera, como el Pho."] },
+            { name: "Cape Town", emoji: "⛰️", pistas: ["Tiene una montaña llamada Table Mountain.", "Es conocida por su puerto marítimo.", "Está cerca del Cabo de Buena Esperanza."] },
+            { name: "Mumbai", emoji: "🌅", pistas: ["Es conocida por la Puerta de la India.", "Es el hogar de Bollywood.", "Tiene una gran mezcla de culturas e idiomas."] }
         ];
+
         const suspects = ["Juan 🕵️‍♂️", "Maria 🕵️‍♀️", "Pedro 🕵️‍♂️", "Lucía 🕵️‍♀️"];
         let score = 0;
+        let round = 0;
+        let shuffledCities = [];
+        let chosenLadrón = "";
 
         document.getElementById("start-btn").addEventListener("click", startGame);
 
         function startGame() {
             score = 0;
+            round = 0;
+            shuffledCities = shuffleArray([...cities]).slice(0, 3);
+            chosenLadrón = suspects[Math.floor(Math.random() * suspects.length)];
             document.getElementById("puntaje").classList.remove("hidden");
             document.getElementById("score").textContent = score;
             showScenario();
@@ -57,13 +90,15 @@
         function showScenario() {
             document.getElementById("start-btn").classList.add("hidden");
             document.getElementById("game-content").classList.remove("hidden");
+
             const pistasList = document.getElementById("pistas");
             pistasList.innerHTML = "";
-            cities[0].pistas.forEach((pista) => {
+            shuffledCities[round].pistas.forEach((pista) => {
                 const li = document.createElement("li");
                 li.textContent = pista;
                 pistasList.appendChild(li);
             });
+
             showOptions();
         }
 
@@ -71,7 +106,11 @@
             const citiesDiv = document.getElementById("ciudades");
             citiesDiv.innerHTML = "";
 
-            cities.forEach((city) => {
+            const correctCity = shuffledCities[round];
+            const incorrectCities = shuffleArray(cities.filter(city => city.name !== correctCity.name)).slice(0, 2);
+            const options = shuffleArray([correctCity, ...incorrectCities]);
+
+            options.forEach((city) => {
                 const button = document.createElement("button");
                 button.className = "p-4 bg-gray-200 rounded hover:bg-gray-300 flex flex-col items-center";
                 button.innerHTML = `<span class="text-3xl">${city.emoji}</span><span>${city.name}</span>`;
@@ -81,10 +120,15 @@
         }
 
         function checkAnswer(city) {
-            if (city.name === "París") {
+            if (city.name === shuffledCities[round].name) {
                 score += 10;
-                alert("¡Correcto! Has atrapado al ladrón en París.");
-                showFinal();
+                alert("¡Correcto!");
+                round++;
+                if (round < 3) {
+                    showScenario();
+                } else {
+                    showFinal();
+                }
             } else {
                 alert("¡Incorrecto! El ladrón escapó.");
             }
@@ -98,7 +142,7 @@
             const suspectsDiv = document.getElementById("suspects");
             suspectsDiv.innerHTML = "";
 
-            suspects.forEach((suspect) => {
+            shuffleArray([...suspects]).forEach((suspect) => {
                 const button = document.createElement("button");
                 button.className = "p-4 bg-yellow-200 rounded hover:bg-yellow-300";
                 button.textContent = suspect;
@@ -108,11 +152,11 @@
         }
 
         function finalizeGame(suspect) {
-            if (suspect === suspects[0]) {
+            if (suspect === chosenLadrón) {
                 score += 50;
-                alert("¡Has identificado al ladrón! Ganaste 50 puntos.");
+                alert(`¡Correcto! Has atrapado al ladrón: ${chosenLadrón}. Ganaste 50 puntos.`);
             } else {
-                alert("¡Incorrecto! El ladrón escapó.");
+                alert(`¡Incorrecto! El ladrón era ${chosenLadrón} y escapó.`);
             }
             document.getElementById("score").textContent = score;
             resetGame();
@@ -122,6 +166,10 @@
             document.getElementById("final-step").classList.add("hidden");
             document.getElementById("start-btn").classList.remove("hidden");
             document.getElementById("puntaje").classList.add("hidden");
+        }
+
+        function shuffleArray(array) {
+            return array.sort(() => Math.random() - 0.5);
         }
     </script>
 </body>
